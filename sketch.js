@@ -58,3 +58,48 @@ function draw() {
 function gotHands(results) {
   hands = results;
 }
+
+// Magnet class
+class Magnet {
+  constructor() {
+    this.x = random(width);
+    this.y = random(height);
+    this.w = 50;
+    this.txt = "Magnet";
+  }
+  
+  touch(thumbX, thumbY, indexX, indexY) {
+    // Add touch interaction logic here
+  }
+  
+  display() {
+    push();
+    translate(this.x, this.y);
+    fill(255, 204, 0);
+    stroke(0);
+    strokeWeight(2);
+    this.drawStar(0, 0, this.w/2.5, this.w/1.2, 5); // 畫五角星
+    fill(0);
+    noStroke();
+    textAlign(CENTER, CENTER);
+    textFont(font);
+    textSize(size);
+    text(this.txt, 0, 0);
+    pop();
+  }
+  
+  drawStar(x, y, radius1, radius2, npoints) {
+    let angle = TWO_PI / npoints;
+    let halfAngle = angle / 2.0;
+    beginShape();
+    for (let a = 0; a < TWO_PI; a += angle) {
+      let sx = x + cos(a) * radius2;
+      let sy = y + sin(a) * radius2;
+      vertex(sx, sy);
+      sx = x + cos(a + halfAngle) * radius1;
+      sy = y + sin(a + halfAngle) * radius1;
+      vertex(sx, sy);
+    }
+    endShape(CLOSE);
+  }
+}
