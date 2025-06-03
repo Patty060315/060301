@@ -1,15 +1,21 @@
-// 只產生指定的五個字卡，位置隨機但靠近畫面中心（±100px）
-let centerX = 400; // 畫面中心 x
-let centerY = 300; // 畫面中心 y
-let textMagnets = [
-  { t: "T", x: centerX + random(-100, 100), y: centerY + random(-100, 100) },
-  { t: "k", x: centerX + random(-100, 100), y: centerY + random(-100, 100) },
-  { t: "u", x: centerX + random(-100, 100), y: centerY + random(-100, 100) },
-  { t: "e", x: centerX + random(-100, 100), y: centerY + random(-100, 100) },
-  { t: "t", x: centerX + random(-100, 100), y: centerY + random(-100, 100) }
-];
-
+let chars = ['T', 'k', 'u', 'e', 't'];
+let textMagnets = [];
 let magnetIndex = 0;
+
+// 在 setup() 執行時呼叫此函式
+function initTextMagnets() {
+  let centerX = 400;
+  let centerY = 300;
+  textMagnets = [];
+  for (let i = 0; i < chars.length; i++) {
+    textMagnets.push({
+      t: chars[i],
+      x: centerX + random(-100, 100),
+      y: centerY + random(-100, 100)
+    });
+  }
+  magnetIndex = 0; // 重新歸零
+}
 
 class Magnet {
   constructor() {
