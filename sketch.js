@@ -1,58 +1,60 @@
-let textMagnets = ["T", "K", "U", "E", "T", "M", "B"]; // 更新字卡內容
+/*
+----- Coding Tutorial by Patt Vira ----- 
+Name: Interactive Fridge Magnets
+Video Tutorial: https://youtu.be/72pAzuD8tqE
+
+Connect with Patt: @pattvira
+https://www.pattvira.com/
+----------------------------------------
+*/
+
+let video; let handPose; let hands = [];
+let font; let size = 35;
+let magnets = []; let num = 5;
 
 function preload() {
-  font = loadFont("Outfit-Regular.ttf"); // 確保字型檔案存在於專案中
+  font = loadFont("Outfit-Regular.ttf");
+  handPose = ml5.handPose({flipped: true});
 }
 
-class Magnet {
-  constructor() {
-    this.t = random(textMagnets); // 隨機選取字卡內容
-    this.x = random(width);
-    this.y = random(height);
-    this.angle = random(TWO_PI);
-    this.c = color(255);
-    
-    this.bbox = font.textBounds(this.t, this.x, this.y, size);
-    this.pos = createVector(this.bbox.x, this.bbox.y);
-    this.w = this.bbox.w;
-    this.h = this.bbox.h;
-    
-    this.fingerx = 0;
-    this.fingery = 0;
-  }
+function setup() {
+  createCanvas(640, 480);
+  // Detect video & load ML model
+  video = createCapture(VIDEO, {flipped: true});
+  video.hide();
+  handPose.detectStart(video, gotHands);
   
-  display() {
-    push();
-    translate(this.pos.x, this.pos.y);
-    rotate(this.angle);
-    fill(this.c);
-    rect(0, 0, this.w, this.h);
+  // Create magnet objects
+  rectMode(CENTER);
+  for (let i=0; i<num; i++) {
+    magnets[i] = new Magnet();
+  }
+}
 
-    fill(0);
-    noStroke();
-    textFont(font);
-    textSize(size / 2);
-    textAlign(CENTER, CENTER);
-    text(this.t, 0, 0); // 顯示字卡文字
-    pop();
-    
-    fill(255, 0, 0);
-    ellipse(this.fingerx, this.fingery, 10, 10);
-  }
+function draw() {
+  background(220);
   
-  touch(thumbx, thumby, indexx, indexy) {
-    let distBetweenFingers = dist(thumbx, thumby, indexx, indexy);
-    this.fingerx = abs(thumbx - indexx) + min(thumbx, indexx);
-    this.fingery = abs(thumby - indexy) + min(thumby, indexy);
+  // Display video and detect index and thumb position
+  image(video, 0, 0, width, height);
+  if (hands.length > 0) {
+    let index = hands[0].keypoints[8];
+    let thumb = hands[0].keypoints[4];
     
-    let distFromFingers = dist(this.pos.x, this.pos.y, this.fingerx, this.fingery);
-    
-    if (distBetweenFingers < 40 && distFromFingers < this.w / 2) {
-      this.c = color(255, 0, 0);
-      this.pos.x = this.fingerx;
-      this.pos.y = this.fingery;
-    } else {
-      this.c = color(255);
+    noFill();
+    stroke(0, 255, 0);
+    text("index", index.x, index.y);
+    text("thumb", thumb.x, thumb.y);
+  
+    for (let i=0; i<num; i++) {
+      magnets[i].touch(thumb.x, thumb.y, index.x, index.y);
     }
   }
+  
+  for (let i=0; i<num; i++) {
+    magnets[i].display();
+  }
+}
+
+function gotHands(results) {
+  hands = results;
 }
