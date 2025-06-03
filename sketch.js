@@ -85,7 +85,7 @@ class Magnet {
     fill(255, 204, 0);
     stroke(0);
     strokeWeight(2);
-    this.drawStar(0, 0, this.w/2.5, this.w/1.2, 5); // 畫五角星
+    this.drawStar(0, 0, this.w/2.5, this.w/1.2, 5); // draw star
     fill(0);
     noStroke();
     textAlign(CENTER, CENTER);
