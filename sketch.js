@@ -18,7 +18,7 @@ function preload() {
 }
 
 function setup() {
-  createCanvas(800, 600);
+  createCanvas(640, 480);
   // Detect video & load ML model
   video = createCapture(VIDEO, {flipped: true});
   video.hide();
