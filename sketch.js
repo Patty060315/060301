@@ -19,7 +19,7 @@ function preload() {
 }
 
 function setup() {
-  createCanvas(600, 480); // 將畫布大小改為
+  createCanvas(640, 480); // 將畫布大小改為
   // Detect video & load ML model
   video = createCapture(VIDEO, {flipped: true});
   video.hide();
