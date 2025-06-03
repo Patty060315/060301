@@ -34,7 +34,10 @@ function setup() {
 function draw() {
   background(220);
 
-  // 在螢幕上方中央顯示文字 "淡江教育科技系"
+  // 先顯示 video
+  image(video, 0, 0, width, height);
+
+  // 再顯示文字，確保文字在最上層
   fill(0);
   textFont(font);
   textSize(36);
