@@ -18,7 +18,8 @@ function preload() {
 }
 
 function setup() {
-  createCanvas(640, 480);
+  fullscreen(true); // 啟動全螢幕
+  createCanvas(windowWidth, windowHeight); // 畫布填滿整個視窗
   // Detect video & load ML model
   video = createCapture(VIDEO, {flipped: true});
   video.hide();
@@ -57,4 +58,8 @@ function draw() {
 
 function gotHands(results) {
   hands = results;
+}
+
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
 }
