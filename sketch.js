@@ -37,15 +37,7 @@ function draw() {
   // 先顯示 video
   image(video, 0, 0, width, height);
 
-  // 再顯示文字，確保文字在最上層
-  fill(0);
-  textFont(font);
-  textSize(36);
-  textAlign(CENTER, TOP);
-  text("淡江教育科技系", width / 2, 10);
-
-  // Display video and detect index and thumb position
-  image(video, 0, 0, width, height);
+  // 其餘偵測與磁鐵程式碼
   if (hands.length > 0) {
     let index = hands[0].keypoints[8];
     let thumb = hands[0].keypoints[4];
@@ -63,6 +55,13 @@ function draw() {
   for (let i=0; i<num; i++) {
     magnets[i].display();
   }
+
+  // 最後顯示文字在最上層
+  fill(0);
+  textFont(font);
+  textSize(36);
+  textAlign(CENTER, TOP);
+  text("淡江教育科技系", width / 2, 10);
 }
 
 function gotHands(results) {
